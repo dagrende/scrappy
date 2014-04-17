@@ -1,5 +1,8 @@
-<p>This is the edit view.</p>
-<form method="post">
-    <textarea id="tinymce" ui-tinymce ng-model="scrapText"></textarea>
+<div class="fullHeight">
+<form  class="form-textarea" id="editorForm" method="post">
+  <div>
+    <textarea id="tinymce" ui-tinymce='{menubar: false, width: "100%"}' ng-model="scrapText"></textarea>
+  </div>
 </form>
-<div>{{scrapText}}</div>
+</div>
+
