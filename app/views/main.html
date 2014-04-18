@@ -6,10 +6,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="scrap in scraps">
-        <td>{{scrap.text}}</td>
+    <tr ng-repeat="scrap in scraps | orderByPriority">
+        <td><a href="#/edit/{{scrap.$id}}">{{scrap.text}}</a></td>
         <td>
-            <a ng-click="edit(scrap.$id)">edit</a>
+            <a ng-click="remove(scrap.$id)">x</a>
         </td>
     </tr>
     </tbody>
