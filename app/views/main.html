@@ -1,13 +1,13 @@
 <table>
     <thead>
     <tr>
-        <th>Scrap</th>
+        <th>Scraps</th>
         <th><a href="#/new">+</a></th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="scrap in scraps | orderByPriority">
-        <td><a href="#/edit/{{scrap.$id}}">{{scrap.text}}</a></td>
+        <td><a href="#/edit/{{scrap.$id}}">{{getLabel(scrap.text)}}</a></td>
         <td>
             <a ng-click="remove(scrap.$id)">x</a>
         </td>

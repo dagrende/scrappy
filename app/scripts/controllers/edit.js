@@ -10,7 +10,7 @@ angular.module('scrappyApp')
   })
   .controller('CreateCtrl', function($scope, Scraps, $firebase, fbURL) {
     setFullHeight();
-    $scope.scrap = {text: "Hej"};
+    $scope.scrap = {text: ""};
     Scraps.$add($scope.scrap).then(function(newRef) {
       $scope.scrap = $firebase(new Firebase(fbURL + newRef.name()));
       $scope.$on("$destroy", function(){
