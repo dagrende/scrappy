@@ -20,21 +20,26 @@ function setFullHeight() {
 }
 
 function saver($scope) {
-  var pendingSaves = 0;
+  var pendingSaves = 0, changeNo = 0, lastSaveNo = 0;
+  $scope.$watch(function() {changeNo++});
   var intervalID = window.setInterval(function () {
-    if (pendingSaves == 0) {
-      pendingSaves++;
-      $scope.scrap.$save().then(function () {
-        pendingSaves--;
-        console.log('save ok');
-      });
-    } else {
-      if (pendingSaves > 5) {
-        console.log('saving problem - pendingSaves=' + pendingSaves);
+    if (lastSaveNo < changeNo) {
+      if (pendingSaves == 0) {
+        pendingSaves++;
+        changeNo--;
+        $scope.scrap.$save().then(function () {
+          pendingSaves--;
+          lastSaveNo = changeNo + 1;
+        });
+      } else {
+        if (pendingSaves > 5) {
+          console.log('saving problem - pendingSaves=' + pendingSaves);
+        }
       }
     }
   }, 3000);
   $scope.$on("$destroy", function () {
     window.clearInterval(intervalID);
+    $scope.scrap.$save();
   });
 }
