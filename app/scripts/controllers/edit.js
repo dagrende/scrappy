@@ -19,6 +19,7 @@ function setFullHeight() {
   $('#tinymce').height((window.innerHeight - 70) + 'px');
 }
 
+// saves $scope.scrap to firebase regularily if changed
 function saver($scope) {
   var pendingSaves = 0, changeNo = 0, lastSaveNo = 0;
   $scope.$watch(function() {changeNo++});
