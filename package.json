@@ -1,6 +1,11 @@
 {
   "name": "scrappy",
   "version": "0.0.0",
+  "description": "Note taker - simpler than evernote",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dagrende/scrappy.git"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",

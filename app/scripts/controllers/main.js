@@ -6,7 +6,7 @@ angular.module('scrappyApp')
 
   $scope.getLabel = function(s) {
     // returns content with all html tags (including attributes) replaced by spaces
-    return s.replace(/<[^>]+>/g, ' ');
+    return s.replace(/<[^>]+>/g, ' ').substring(0, 40);
   };
   $scope.remove = function(scrapId) {
     Scraps.$remove(scrapId);
