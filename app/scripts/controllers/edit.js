@@ -4,14 +4,14 @@ angular.module('scrappyApp')
   .controller('EditCtrl', function ($scope, $routeParams, Scraps, fbURL, $firebase) {
     setFullHeight();
     $scope.scrap = $firebase(new Firebase(fbURL + $routeParams.scrapId));
-    saver($scope);
+//    saver($scope);
   })
   .controller('CreateCtrl', function($scope, Scraps, $firebase, fbURL) {
     setFullHeight();
     $scope.scrap = {text: ""};
     Scraps.$add($scope.scrap).then(function(newRef) {
       $scope.scrap = $firebase(new Firebase(fbURL + newRef.name()));
-      saver($scope);
+//      saver($scope);
     });
   });
 

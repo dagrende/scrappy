@@ -1,3 +1,9 @@
+<div id="login">
+      <span ng-show="auth.user">
+        {{auth.user.email}} | <a href="#" ng-click="auth.$logout()">Logout</a>
+      </span>
+    <input ng-model="email" ng-hide="auth.user"><input type="password" ng-model="pw" ng-hide="auth.user"><a href="#" ng-hide="auth.user" ng-click="login()">Login</a>
+</div>
 <table>
     <thead>
     <tr>

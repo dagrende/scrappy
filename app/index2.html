@@ -1,0 +1,50 @@
+<html>
+    <body ng-app="scrappyApp">
+        <div class="container" ng-view=""></div>
+
+
+        <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+        <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
+        <script src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
+        <script src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+    <script>
+        app = angular.module('scrappyApp', ['firebase',   'ui.tinymce',
+            'ngRoute']);
+        app.value('fbURL', 'https://scrappy.firebaseio.com/')
+        .service('fbref', function(fbURL) {
+            return new Firebase(fbURL);
+        })
+        .factory('Scraps', function($firebase, fbref) {
+            return $firebase(fbref);
+        })
+        .service('auth', function($firebaseAuth, fbref) {
+            return $firebaseAuth(fbref);
+        })
+        app.config(function ($routeProvider) {
+            $routeProvider
+                    .when('/', {
+                        templateUrl: 'views/main.html',
+                        controller: 'MainCtrl'
+                    })
+                    .when('/edit/:scrapId', {
+                        templateUrl: 'views/edit.html',
+                        controller: 'EditCtrl'
+                    })
+                    .when('/new', {
+                        templateUrl: 'views/edit.html',
+                        controller: 'CreateCtrl'
+                    })
+                    .otherwise({
+                        redirectTo: '/'
+                    });
+        });
+    </script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/edit.js"></script>
+    </body>
+</html>
