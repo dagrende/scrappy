@@ -1,16 +1,19 @@
 'use strict';
 
 angular.module('scrappyApp')
-  .controller('MainCtrl', ['$scope', '$rootScope', 'Scraps', '$firebaseAuth', 'fbref', 'auth', function ($scope, $rootScope, Scraps, $firebaseAuth, fbref, auth) {
-    console.log("1");
+  .controller('MainCtrl', function ($scope, $rootScope, $timeout, Scraps, $firebaseSimpleLogin, fbref) {
     $scope.scraps = Scraps;
-    $scope.auth = auth;
+    $scope.auth = $firebaseSimpleLogin(fbref);
 
     $scope.email = "dag.rende@gmail.com";
     $scope.pw = '';
     $scope.login = function () {
-      auth.$login('password', {email: $scope.email, password: $scope.pw}).then(function (user) {
+      $scope.auth.$login('password', {email: $scope.email, password: $scope.pw})
+      .then(function (user) {
         console.log("logged in: ", user);
+        $timeout(function() {$rootScope.$apply()});
+      }, function(error) {
+        console.error("Login failed: " + error);
       });
     };
     $scope.getLabel = function (s) {
@@ -20,4 +23,4 @@ angular.module('scrappyApp')
     $scope.remove = function (scrapId) {
       Scraps.$remove(scrapId);
     };
-  }]);
+  });

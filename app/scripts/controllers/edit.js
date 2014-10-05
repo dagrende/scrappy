@@ -3,20 +3,24 @@
 angular.module('scrappyApp')
   .controller('EditCtrl', function ($scope, $routeParams, Scraps, fbURL, $firebase) {
     setFullHeight();
+    $(window).bind("resize", setFullHeight);
     $scope.scrap = $firebase(new Firebase(fbURL + $routeParams.scrapId));
-//    saver($scope);
+    saver($scope);
   })
   .controller('CreateCtrl', function($scope, Scraps, $firebase, fbURL) {
     setFullHeight();
+    $(window).bind("resize", setFullHeight);
     $scope.scrap = {text: ""};
     Scraps.$add($scope.scrap).then(function(newRef) {
       $scope.scrap = $firebase(new Firebase(fbURL + newRef.name()));
-//      saver($scope);
+      saver($scope);
     });
   });
 
 function setFullHeight() {
-  $('#tinymce').height((window.innerHeight - 70) + 'px');
+  var newHeight = (window.innerHeight - 70) + 'px';
+  $('#tinymce').height(newHeight);
+  $('#tinymce_ifr').height(newHeight);
 }
 
 // saves $scope.scrap to firebase regularily if changed
