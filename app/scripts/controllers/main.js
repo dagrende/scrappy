@@ -1,26 +1,26 @@
 'use strict';
 
 angular.module('scrappyApp')
-  .controller('MainCtrl', function ($scope, $rootScope, $timeout, Scraps, $firebaseSimpleLogin, fbref) {
-    $scope.scraps = Scraps;
-    $scope.auth = $firebaseSimpleLogin(fbref);
+  .controller('MainCtrl', function ($scope, $rootScope, $timeout, $firebase, $firebaseSimpleLogin, fbref, fsl) {
+    $scope.auth = fsl;
+
+    fsl.$getCurrentUser().then(function(d) {
+      if (d) {
+        $timeout(function() {window.location.href = "#/list"});
+      }
+    });
 
     $scope.email = "dag.rende@gmail.com";
     $scope.pw = '';
-    $scope.login = function () {
-      $scope.auth.$login('password', {email: $scope.email, password: $scope.pw})
-      .then(function (user) {
-        console.log("logged in: ", user);
-        $timeout(function() {$rootScope.$apply()});
-      }, function(error) {
-        console.error("Login failed: " + error);
-      });
-    };
-    $scope.getLabel = function (s) {
-      // returns content with all html tags (including attributes) replaced by spaces
-      return s.replace(/<[^>]+>/g, ' ').substring(0, 40);
-    };
-    $scope.remove = function (scrapId) {
-      Scraps.$remove(scrapId);
+    $scope.login = function (serviceProvider, data) {
+      if (['google', 'github', 'password'].indexOf(serviceProvider) != -1) {
+        $scope.auth.$login(serviceProvider, data)
+        .then(function (user) {
+          console.log("logged in: ", user);
+          $timeout(function() {$rootScope.$apply(); window.location.href = "#/list"});
+        }, function(error) {
+          console.error("Login failed: " + error);
+        });
+      }
     };
   });

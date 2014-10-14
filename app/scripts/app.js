@@ -9,8 +9,18 @@ angular.module('scrappyApp', [
   .service('fbref', function (fbURL) {
     return new Firebase(fbURL);
   })
-  .factory('Scraps', function ($firebase, fbURL, fbref) {
-    return $firebase(fbref);
+  .service('fsl', function($firebaseSimpleLogin, fbref, $timeout) {
+    var fsl = $firebaseSimpleLogin(fbref);
+    return fsl;
+  })
+  .directive("ngFilesSelect",function(){
+    return {
+      link: function($scope, el){
+        el.bind("change", function(e){
+          $scope.getFiles((e.srcElement || e.target).files);
+        })      
+      }
+    }
   })
   .config(function ($routeProvider) {
     $routeProvider
@@ -18,13 +28,17 @@ angular.module('scrappyApp', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/edit/:scrapId', {
-        templateUrl: 'views/edit.html',
-        controller: 'EditCtrl'
+      .when('/list', {
+        templateUrl: 'views/list.html',
+        controller: 'ListCtrl'
       })
       .when('/new', {
         templateUrl: 'views/edit.html',
         controller: 'CreateCtrl'
+      })
+      .when('/edit/:scrapId', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
       })
       .otherwise({
         redirectTo: '/'

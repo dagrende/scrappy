@@ -1,22 +1,12 @@
 <div id="login">
-      <span ng-show="auth.user">
-        {{auth.user.email}} | <a href="#" ng-click="auth.$logout()">Logout</a>
-      </span>
-    <input ng-model="email" ng-hide="auth.user"><input type="password" ng-model="pw" ng-hide="auth.user"><a href="#" ng-hide="auth.user" ng-click="login()">Login</a>
+    <div>
+        <a href="#" ng-hide="auth.user" ng-click="login('google')">Login with Google</a>
+    </div>
+    <div>
+        <a href="#" ng-hide="auth.user" ng-click="login('password', {email:'dag.rende@gmail.com', password: 'plep'})">Login with email/password</a>
+    </div>
+    <!-- <div>
+        <a href="#" ng-hide="auth.user" ng-click="login('github')">Login with Github</a>
+    </div> -->
 </div>
-<table>
-    <thead>
-    <tr>
-        <th>Scraps</th>
-        <th><a href="#/new">+</a></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="scrap in scraps | orderByPriority">
-        <td><a href="#/edit/{{scrap.$id}}">{{getLabel(scrap.text)}}</a></td>
-        <td>
-            <a ng-click="remove(scrap.$id)">x</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+

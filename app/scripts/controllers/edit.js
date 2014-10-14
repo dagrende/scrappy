@@ -1,18 +1,24 @@
 'use strict';
 
 angular.module('scrappyApp')
-  .controller('EditCtrl', function ($scope, $routeParams, Scraps, fbURL, $firebase) {
+  .controller('EditCtrl', function ($scope, $routeParams, fbURL, $firebase, fsl) {
     setFullHeight();
     $(window).bind("resize", setFullHeight);
-    $scope.scrap = $firebase(new Firebase(fbURL + $routeParams.scrapId));
+    fsl.$getCurrentUser().then(function(user) {
+      $scope.scrap = $firebase(new Firebase(fbURL + '/users/' + user.uid + '/' + $routeParams.scrapId));
+    });
     saver($scope);
   })
-  .controller('CreateCtrl', function($scope, Scraps, $firebase, fbURL) {
+  .controller('CreateCtrl', function($scope, fsl, $firebase, fbURL) {
     setFullHeight();
     $(window).bind("resize", setFullHeight);
-    $scope.scrap = {text: ""};
-    Scraps.$add($scope.scrap).then(function(newRef) {
-      $scope.scrap = $firebase(new Firebase(fbURL + newRef.name()));
+    var dateString = new Date().toISOString();
+    $scope.scrap = {text: "", created: dateString, changed: dateString, notebook: ''};
+    fsl.$getCurrentUser().then(function(user) {
+      var scraps = $firebase(new Firebase(fbURL + '/users/' + user.uid));
+      scraps.$add($scope.scrap).then(function(newRef) {
+        $scope.scrap = $firebase(new Firebase(fbURL + '/users/' + user.uid + '/' + newRef.name()));
+      });
       saver($scope);
     });
   });
@@ -32,6 +38,7 @@ function saver($scope) {
       if (pendingSaves == 0) {
         pendingSaves++;
         changeNo--;
+        $scope.scrap.updated = new Date().toISOString();
         $scope.scrap.$save().then(function () {
           pendingSaves--;
           lastSaveNo = changeNo + 1;
@@ -45,6 +52,7 @@ function saver($scope) {
   }, 3000);
   $scope.$on("$destroy", function () {
     window.clearInterval(intervalID);
+    $scope.scrap.updated = new Date().toISOString();
     $scope.scrap.$save();
   });
 }
