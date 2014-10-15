@@ -1,12 +1,12 @@
 <table>
     <thead>
     <tr>
-        <th>Scraps</th>
-        <th><a href="#/new">+</a></th>
+        <td><input type="text" ng-model="state.search"></td>
+        <td><a href="#/new">+</a></td>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="scrap in scraps | orderByPriority | orderBy:'updated':true">
+    <tr ng-repeat="scrap in scraps | orderByPriority | filter:state.search | orderBy:'updated':true">
         <td><a href="#/edit/{{scrap.$id}}">{{getLabel(scrap.text)}}</a></td>
         <td>
             <a ng-click="remove(scrap.$id)">x</a>

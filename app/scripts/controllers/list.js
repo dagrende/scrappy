@@ -8,7 +8,8 @@
  * Controller of the scrappyApp
  */
 angular.module('scrappyApp')
-  .controller('ListCtrl', function ($scope, $rootScope, $timeout, $firebase, fbref, fsl, fbURL) {
+  .controller('ListCtrl', function ($scope, $rootScope, $timeout, $firebase, fbref, fsl, fbURL, state) {
+  	$scope.state = state;
 	fsl.$getCurrentUser().then(function(user) {
 		console.log("User " + user + " successfully logged in!");
 		$scope.auth = fsl;
@@ -57,11 +58,9 @@ angular.module('scrappyApp')
 	}
 
     $scope.getFiles = function(files) {
-    	console.log('files=',files);
 		fsl.$getCurrentUser().then(function(user) {
 			for (var fileI = 0; fileI < files.length; fileI++) {
 				var file = files[fileI];
-		    	console.log('file=',file);
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					var xmlDoc = $.parseXML(e.target.result);
@@ -73,17 +72,11 @@ angular.module('scrappyApp')
 						var content = note.find('content').text();
 						var created = compactIsoDate2Iso(note.find('created').text());
 						var updated = compactIsoDate2Iso(note.find('updated').text());
-						// var contentXml = $(content);
-						console.log('title',title);
-						console.log('xml=',xml);
 						var contentXml = $($.parseXML(content));
-						console.log('contentXml',contentXml);
 						var noteBody = '<div>' + title + '</div>' + new XMLSerializer().serializeToString(contentXml.context);
-						console.log('noteBody',noteBody);
 						var note = {text: noteBody, created: created, updated: updated, notebook: $scope.notebook};
 						var scraps = $firebase(new Firebase(fbURL + '/users/' + user.uid));
 						scraps.$add(note).then(function(newRef) {
-							console.log('note saved as ', newRef.name());
 						});
 					});
 	        	};

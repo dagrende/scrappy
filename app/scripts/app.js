@@ -22,6 +22,9 @@ angular.module('scrappyApp', [
       }
     }
   })
+  .service('state', function() {
+    return {search:''};
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

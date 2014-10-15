@@ -52,7 +52,6 @@ function saver($scope) {
   }, 3000);
   $scope.$on("$destroy", function () {
     window.clearInterval(intervalID);
-    $scope.scrap.updated = new Date().toISOString();
     $scope.scrap.$save();
   });
 }
