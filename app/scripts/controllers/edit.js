@@ -70,8 +70,7 @@ function initEditor($scope, deleteNote) {
         }
       });
       editor.on('BeforeRenderUI', function(e) {
-        console.log('BeforeRenderUI event', e);
-        console.log(editor.menuItems.formats);
+        // added My menu item to Format toolbar menu top level
         editor.menuItems.formats.menu.items.push({
           type: 'menuitem',
           text: 'My menu item',
