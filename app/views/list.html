@@ -7,10 +7,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="scrap in scraps | orderByPriority | filter:state.search | orderBy:'updated':true">
-        <td><a href="#/edit/{{scrap.$id}}">{{getLabel(scrap.text)}}</a></td>
-        <td>
-            <a ng-click="remove(scrap.$id)">x</a>
-        </td>
+        <td colspan="2"><a href="#/edit/{{scrap.$id}}">{{getLabel(scrap.text)}}</a></td>
     </tr>
     </tbody>
 </table>

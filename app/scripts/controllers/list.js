@@ -46,7 +46,9 @@ angular.module('scrappyApp')
 
     };
     $scope.remove = function (scrapId) {
-      $scope.scraps.$remove(scrapId);
+    	if (scrapId && scrapId.length > 5) {	// prevent removing all by accident with undefined or empty id
+			$scope.scraps.$remove(scrapId);
+    	}
     };
 
     function xmlToString(xmlData) { 

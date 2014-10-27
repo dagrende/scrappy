@@ -1,5 +1,23 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #cccccc;
+  font-size: 16pt;
+  font-family: Helvetica, sans-serif;
 }
 
+#login {
+
+}
+#login button {
+	background-color: default;
+	margin: 1em;
+	padding: 1em;
+}
+
+table {
+	width: 100%;
+}
+table tr {
+	background-color: #eeeeee;
+}
